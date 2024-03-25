@@ -11,6 +11,10 @@ export const ScanerScreen = () => {
     const handlePresenca = () => {
         console.log('Confirmar Presença')
     };
+    
+    const handleJustificar = () => {
+        console.log('Falta  Justificado')
+    };
 
     const handleEnviar = () => {
         console.log('Presença enviada')
@@ -20,12 +24,16 @@ export const ScanerScreen = () => {
 
         <View style={styles.container}>
 
+
+
+            <View style={styles.viewBtn}>
+                <Button text='Scanear' onPress={handleScarner} />
+            </View>
             <View style={styles.viewPresenca}>
                 <Button text='Presença Aluno' onPress={handlePresenca} />
             </View>
-
-            <View style={styles.viewBtn}>
-                <Button text='Scanear' onPress={handleScarner}  />
+            <View style={styles.viewJustificar}>
+                <Button text='Justificar' onPress={handleJustificar} />
             </View>
 
             <View style={styles.viewEnviar}>
