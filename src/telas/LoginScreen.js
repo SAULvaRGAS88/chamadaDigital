@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TextInput } from 'react-native'
 import { Button } from '../componentes/Button'
-import { TextInput } from 'react-native-paper';
+// import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 export const LoginScreen = () => {
@@ -24,19 +24,23 @@ export const LoginScreen = () => {
     <View style={styles.container}>
 
       <View style={styles.containerLogin}>
+        <Text>Login</Text>
         <TextInput
           label="Login"
           value={usuario}
           onChangeText={text => setUsuario(text)}
+          style={styles.input}
         />
       </View>
 
       <View style={styles.containerSenha}>
+      <Text>Senha</Text>
         <TextInput
           label="Senha"
           value={senha}
           onChangeText={text => setSenha(text)}
-          right={<TextInput.Icon icon="eye" />}
+          style={styles.input}
+          // right={<TextInput.Icon icon="eye" />}
         />
       </View>
 
@@ -73,4 +77,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 550
   },
+  input:{
+    backgroundColor:'#FFF',
+    borderRadius:8,
+    paddingHorizontal:16,
+    fontSize:16,
+    color:"#333"
+  }
 })

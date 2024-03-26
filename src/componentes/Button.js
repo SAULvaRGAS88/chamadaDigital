@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   },
   textBtn:{
     color: '#fff',
-    fontSize: 40
+    fontSize: 28
   }
 });

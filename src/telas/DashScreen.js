@@ -33,8 +33,8 @@ export const DashScreen = () => {
                 <Text>Legenda</Text>
                 <View style={styles.viewLegendasIcon}>
                     <Text>Presença: <Icon name="check" size={20} color="green" /></Text>
-                    <Text>Justificativa:</Text>
-                    <Text>Falta:</Text>
+                    <Text>Justificativa: <Icon name="check" size={20} color="grey" /></Text>
+                    <Text>Falta: <Icon name="check" size={20} color="red" /> </Text>
                 </View>
             </View>
 

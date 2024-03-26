@@ -14,7 +14,7 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Button text='Entrar' onPress={handlePress}/>
+      <Button text='Iniciar' onPress={handlePress} />
     </View>
   );
 };
@@ -22,7 +22,7 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container:{
-    position: 'relative',
     top: 700
+    
   }
 })
