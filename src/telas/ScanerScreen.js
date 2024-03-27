@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Button } from '../componentes/Button'
+import { StyleSheet, View } from 'react-native'
+import { Button, NativeBaseProvider } from "native-base";
 
 export const ScanerScreen = () => {
 
@@ -11,7 +11,7 @@ export const ScanerScreen = () => {
     const handlePresenca = () => {
         console.log('Confirmar Presença')
     };
-    
+
     const handleJustificar = () => {
         console.log('Falta  Justificado')
     };
@@ -21,50 +21,76 @@ export const ScanerScreen = () => {
     };
 
     return (
+        <NativeBaseProvider>
+            <View style={styles.container}>
 
-        <View style={styles.container}>
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.viewScanear}>
+                        <Button
+                            onPress={handleScarner}
+                            style={styles.btnStyle}>
+                            Scanear
+                        </Button>
 
+                    </View>
 
+                    <View style={styles.viewPresenca}>
+                        <Button
+                            style={styles.btnStyle}
+                            onPress={handlePresenca} >
+                            Presença Aluno
+                        </Button>
+                    </View>
 
-            <View style={styles.viewBtn}>
-                <Button text='Scanear' onPress={handleScarner} />
+                    <View style={styles.viewJustificar}>
+                        <Button
+                            onPress={handleJustificar}
+                            style={styles.btnStyle} >
+                            Justificar
+                        </Button>
+                    </View>
+
+                    <View style={styles.viewEnviar}>
+                        <Button
+                            style={styles.btnStyle}
+                            onPress={handleEnviar} >
+                            Enviar
+                        </Button>
+                    </View>
+                </View>
+
             </View>
-            <View style={styles.viewPresenca}>
-                <Button text='Presença Aluno' onPress={handlePresenca} />
-            </View>
-            <View style={styles.viewJustificar}>
-                <Button text='Justificar' onPress={handleJustificar} />
-            </View>
-
-            <View style={styles.viewEnviar}>
-                <Button text='Enviar' onPress={handleEnviar} />
-            </View>
-
-        </View>
+        </NativeBaseProvider>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center',
+        flex: 1
     },
-    viewBtn: {
-        position: 'absolute',
-        top: 450
-    },
-    camera: {
+    buttonsContainer: {
+        display: 'flex',
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        paddingTop: 500,
+        padding: 15
+    },
+    viewScanear: {
+
     },
     viewPresenca: {
-        top: 550,
-        position: 'absolute',
+
+    },
+    viewJustificar: {
+
     },
     viewEnviar: {
-        top: 700,
-        position: 'absolute',
+
     },
+    btnStyle: {
+        width: 150,
+        height: 50,
+        backgroundColor: '#9B4F4F',
+    }
 })

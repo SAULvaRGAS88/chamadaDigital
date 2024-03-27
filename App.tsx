@@ -4,37 +4,40 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from './src/telas/HomeScreen';
 import { LoginScreen } from './src/telas/LoginScreen';
 import { ScanerScreen } from './src/telas/ScanerScreen';
-import {DashScreen} from './src/telas/DashScreen';
+import { DashScreen } from './src/telas/DashScreen';
+import { NativeBaseProvider } from 'native-base';
 
 const Stack = createNativeStackNavigator()
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShown: false }}>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShown: false }}>
 
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-        />
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+          />
 
-        <Stack.Screen
-          name="DashScreen"
-          component={DashScreen}
-        />
+          <Stack.Screen
+            name="DashScreen"
+            component={DashScreen}
+          />
 
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-        />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+          />
 
-        <Stack.Screen
-          name="ScanerScreen"
-          component={ScanerScreen}
-        />
+          <Stack.Screen
+            name="ScanerScreen"
+            component={ScanerScreen}
+          />
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
 

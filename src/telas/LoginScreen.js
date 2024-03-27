@@ -24,7 +24,7 @@ export const LoginScreen = () => {
     <View style={styles.container}>
 
       <View style={styles.containerLogin}>
-        <Text>Login</Text>
+        <Text style={styles.textView}>Login</Text>
         <TextInput
           label="Login"
           value={usuario}
@@ -34,13 +34,13 @@ export const LoginScreen = () => {
       </View>
 
       <View style={styles.containerSenha}>
-      <Text>Senha</Text>
+        <Text style={styles.textView}>Senha</Text>
         <TextInput
           label="Senha"
           value={senha}
           onChangeText={text => setSenha(text)}
           style={styles.input}
-          // right={<TextInput.Icon icon="eye" />}
+        // right={<TextInput.Icon icon="eye" />}
         />
       </View>
 
@@ -68,20 +68,38 @@ const styles = StyleSheet.create({
     height: 115,
     width: 250,
     position: 'absolute',
-    top: 450
+    top: 450,
+    alignItems: 'center'
   },
   containerSenha: {
     marginTop: 0,
     height: 115,
     width: 250,
     position: 'absolute',
-    top: 550
+    top: 550,
+    alignItems: 'center'
   },
-  input:{
-    backgroundColor:'#FFF',
-    borderRadius:8,
-    paddingHorizontal:16,
-    fontSize:16,
-    color:"#333"
+  input: {
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: "#333",
+    borderRadius: 10,
+    width: "90%",
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 9.84,
+    elevation: 9,
+  },
+  textView: {
+    alignSelf: 'stretch',
+    marginLeft: 15,
+    fontWeight: 'bold',
+    fontSize: 16
   }
 })
