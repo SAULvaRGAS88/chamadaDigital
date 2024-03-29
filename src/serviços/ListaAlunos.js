@@ -5,7 +5,7 @@ const ListaAlunos = [
     { nome: 'Ana Costa', matricula: '004', celular: '(11) 9 8765-4324' },
     { nome: 'Lucas Pereira', matricula: '005', celular: '(11) 9 8765-4325' },
     { nome: 'Juliana Souza', matricula: '006', celular: '(11) 9 8765-4326' },
-    { nome: 'Bruno Lima', matricula: '007', celular: '(11) 9 8765-4327' },
+    { nome: 'Bruno Lima', matricula: '034', celular: '(11) 9 8765-4327' },
     { nome: 'Camila Fernandes', matricula: '008', celular: '(11) 9 8765-4328' },
     { nome: 'Guilherme Almeida', matricula: '009', celular: '(11) 9 8765-4329' },
     { nome: 'Larissa Gomes', matricula: '010', celular: '(11) 9 8765-4330' },
@@ -18,7 +18,9 @@ const ListaAlunos = [
     { nome: 'Diego Oliveira', matricula: '017', celular: '(11) 9 8765-4337' },
     { nome: 'Isabela Sousa', matricula: '018', celular: '(11) 9 8765-4338' },
     { nome: 'Matheus Lima', matricula: '019', celular: '(11) 9 8765-4339' },
-    { nome: 'Vanessa Santos', matricula: '020', celular: '(11) 9 8765-4340' }
+    { nome: 'Vanessa Santos', matricula: '020', celular: '(11) 9 8765-4340' },
+    { nome: 'Saul Vargas Costa da Silva Sauro', matricula: '007', celular: '(11) 9 8502-7412' },
+    { nome: 'Rita Andresa da Costa Feula', matricula: '777', celular: '(11) Não sei' },
 ];
 
 export default ListaAlunos;

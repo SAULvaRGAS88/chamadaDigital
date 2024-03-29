@@ -5,13 +5,11 @@ import { HomeScreen } from './src/telas/HomeScreen';
 import { LoginScreen } from './src/telas/LoginScreen';
 import { ScanerScreen } from './src/telas/ScanerScreen';
 import { DashScreen } from './src/telas/DashScreen';
-import { NativeBaseProvider } from 'native-base';
 
 const Stack = createNativeStackNavigator()
 
 const App = () => {
   return (
-    <NativeBaseProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShown: false }}>
 
@@ -37,7 +35,6 @@ const App = () => {
 
         </Stack.Navigator>
       </NavigationContainer>
-    </NativeBaseProvider>
   );
 }
 
