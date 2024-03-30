@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button } from '../componentes/Button';
+import { Button } from '../../componentes/Button';
 import { useNavigation } from '@react-navigation/native';
 
 export const HomeScreen = () => {

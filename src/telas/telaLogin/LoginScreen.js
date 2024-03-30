@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
-import { Button } from '../componentes/Button'
+import { Button } from '../../componentes/Button'
 // import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 

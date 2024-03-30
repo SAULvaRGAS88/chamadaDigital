@@ -1,8 +1,8 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Button } from '../componentes/Button'
+import { Button } from '../../componentes/Button'
 import { useNavigation } from '@react-navigation/native'
-import ListaAlunos from '../serviços/ListaAlunos'
+import ListaAlunos from '../../serviços/ListaAlunos'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const DashScreen = () => {
@@ -33,8 +33,8 @@ export const DashScreen = () => {
                 <Text>Legenda</Text>
                 <View style={styles.viewLegendasIcon}>
                     <Text>Presença: <Icon name="check" size={20} color="green" /></Text>
-                    <Text>Justificativa: <Icon name="check" size={20} color="grey" /></Text>
-                    <Text>Falta: <Icon name="check" size={20} color="red" /> </Text>
+                    <Text>Justificativa: <Icon name="info" size={20} color="orange" /></Text>
+                    <Text>Falta: <Icon name="times" size={20} color="red" /> </Text>
                 </View>
             </View>
 

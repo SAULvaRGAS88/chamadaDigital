@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from './src/telas/HomeScreen';
-import { LoginScreen } from './src/telas/LoginScreen';
-import { ScanerScreen } from './src/telas/ScanerScreen';
-import { DashScreen } from './src/telas/DashScreen';
+import { HomeScreen } from './src/telas/telaHome/HomeScreen';
+import { LoginScreen } from './src/telas/telaLogin/LoginScreen';
+import { ScanerScreen } from './src/telas/telaPresenca/ScanerScreen';
+import { DashScreen } from './src/telas/telaDash/DashScreen';
 
 const Stack = createNativeStackNavigator()
 

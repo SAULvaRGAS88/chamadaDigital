@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
-import { StyleSheet, Text, View, Modal, Button, TextInput, FlatList } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import React, { useEffect, useRef, useState } from 'react'
+import { StyleSheet, Text, View, Modal, Button, TextInput, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import ListaAlunos from '../serviços/ListaAlunos';
+import ListaAlunos from '../../serviços/ListaAlunos';
+import { handleScarner } from './FuncoesScanerScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const ScanerScreen = () => {
 
@@ -13,10 +14,6 @@ export const ScanerScreen = () => {
     const [nomeAlunoInput, setNomeAlunoInput] = useState("")
 
     const navigation = useNavigation()
-
-    const handleScarner = () => {
-        console.log('foto capturada')
-    };
 
     const handlePresenca = () => {
         setModalPresenca(true);
@@ -37,26 +34,31 @@ export const ScanerScreen = () => {
         console.log('Voltou')
     }
 
-    const verificarAlunoNome = (nome) => {
-        const procurarAluno = ListaAlunos.find((item) => item.nome === nome);
-        if (procurarAluno) {
-            console.log(procurarAluno);
-        } else {
-            console.log('Aluno não encontrado!');
-        }
-    }
-
     const filtrarSugestoes = (texto) => {
-        const sugestoesFiltradas = ListaAlunos.filter(aluno =>
-            aluno.nome.toLowerCase().includes(texto.toLowerCase())
-        );
-        setSugestoes(sugestoesFiltradas);
+        if (texto.length >= 3) {
+            const sugestoesFiltradas = ListaAlunos.filter(aluno =>
+                aluno.nome.toLowerCase().includes(texto.toLowerCase())
+            );
+            setSugestoes(sugestoesFiltradas);
+        } else {
+            setSugestoes([]);
+        }
     };
 
     const selecionarAluno = (nome) => {
         setNomeAlunoInput(nome);
         setSugestoes([]);
     };
+
+    const limpaNome = () => {
+        setNomeAlunoInput("");
+    }
+
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -69,18 +71,17 @@ export const ScanerScreen = () => {
                 />
             </View>
 
-            {nomeAlunoInput !== '' && (
+            {nomeAlunoInput !== '' && ListaAlunos.some(item => item.nome === nomeAlunoInput) && (
                 <View style={styles.viewNomeSelecionado}>
-                    <Text>
-                        Nome do aluno
-                    </Text>
-                    <Text>
-                        {nomeAlunoInput} <Icon name="th-list" style={styles.icon} />
-                    </Text>
+                    <Text style={styles.textNomeSelecionado}>Nome do aluno(a)</Text>
+                    <Text style={styles.textNomeSelecionado}>{nomeAlunoInput} </Text>
+                    <Icon name="check" style={styles.icon} color={'green'} size={16}/>
+
                 </View>
             )}
 
 
+            {/* BOTÕES */}
             <View style={styles.buttonsContainer}>
 
                 <View style={styles.btnStyle}>
@@ -95,7 +96,7 @@ export const ScanerScreen = () => {
                 <View style={styles.btnStyle}>
                     <Button
                         onPress={handlePresenca}
-                        title='Marcar Presença'
+                        title='Marcar Presença por Nome'
                         color={'#ffbf00'}
                     />
                 </View>
@@ -120,6 +121,7 @@ export const ScanerScreen = () => {
                 </View>
             </View>
 
+            {/* MODAL */}
             <Modal
                 animationType='slide'
                 transparent={true}
@@ -130,8 +132,11 @@ export const ScanerScreen = () => {
                         <Text>Buscar aluno por nome</Text>
                         <TextInput
                             style={styles.inputModal}
-                            placeholder='Nome do aluno'
                             value={nomeAlunoInput}
+                            ref={inputRef}
+                            autoFocus={true}
+                            textAlign='center'
+                            keyboardType="ascii-capable"
                             onChangeText={texto => {
                                 setNomeAlunoInput(texto);
                                 filtrarSugestoes(texto);
@@ -142,12 +147,27 @@ export const ScanerScreen = () => {
                                 title='Ok'
                                 color={'#ffbf00'}
                                 onPress={() => {
-                                    verificarAlunoNome(nomeAlunoInput);
-                                    setModalPresenca(false)
+                                    if (nomeAlunoInput === '') {
+                                        Alert.alert('Atenção', 'Insira um Nome!');
+                                    } else if (!ListaAlunos.some(item => item.nome === nomeAlunoInput)) {
+                                        Alert.alert("Atenção", "Nome Digitado não encontrado na Lista de Alunos");
+                                    } else {
+                                        selecionarAluno(nomeAlunoInput)
+                                        setModalPresenca(false);
+                                    }
                                 }}
                             />
                         </View>
 
+                        <View style={{ marginBottom: 10 }}>
+                            <Button
+                                title='Limpar'
+                                color={'#ffbf00'}
+                                onPress={() => {
+                                    limpaNome()
+                                }}
+                            />
+                        </View>
 
                         <Button
                             title='Fechar'
@@ -157,13 +177,19 @@ export const ScanerScreen = () => {
                                 setModalPresenca(false)
                             }}
                         />
-                        <FlatList
-                            data={sugestoes}
-                            renderItem={({ item }) => (
-                                <Text onPress={() => selecionarAluno(item.nome)}>{item.nome}</Text>
-                            )}
-                            keyExtractor={(item) => item.nome}
-                        />
+                        <View style={{ alignItems: 'center' }}>
+                            <FlatList
+                                data={sugestoes}
+                                renderItem={({ item }) => (
+                                    <Text
+                                        style={{ fontSize: 18, paddingTop: 10, color: 'black', textDecorationLine: 'underline', }}
+                                        onPress={() => selecionarAluno(item.nome)}>{item.nome}
+                                    </Text>
+                                )}
+                                keyExtractor={(item) => item.nome}
+                                textAlign='center'
+                            />
+                        </View>
                     </View>
 
                 </View>
@@ -188,13 +214,15 @@ export const ScanerScreen = () => {
                     </View>
                 </View>
             </Modal>
+
         </View >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        alignItems: 'center'
     },
     buttonsContainer: {
         display: 'flex',
@@ -235,6 +263,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         elevation: 5,
+        width: '85%'
     },
     inputModal: {
         height: 40,
@@ -245,11 +274,28 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         marginTop: 10,
         marginBottom: 10,
+        width: '100%',
     },
     viewNomeSelecionado: {
-        top: 250,
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
-    }
+        top: 250,
+        backgroundColor: '#FFBF00',
+        padding: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        width: '90%',
+        flexDirection: 'column'
+    },
+    textNomeSelecionado: {
+        color: 'black',
+        fontSize: 16,
+        marginRight: 5,
+        fontWeight: 'bold',
+        fontFamily: 'Arial'
+    },
+
 })
