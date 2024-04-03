@@ -2,16 +2,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, View, Modal, Button, TextInput, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import ListaAlunos from '../../serviços/ListaAlunos';
+import MotivosJustificacao from '../../serviços/MotivosJustificacao';
 import { handleScarner } from './FuncoesScanerScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import RNPickerSelect from 'react-native-picker-select';
 
 export const ScanerScreen = () => {
 
     const [modalPresenca, setModalPresenca] = useState(false);
     const [modalJustificar, setModalJustificar] = useState(false);
-    const [nomeAlunoLista, setNomealunoLista] = useState("")
     const [sugestoes, setSugestoes] = useState([]);
     const [nomeAlunoInput, setNomeAlunoInput] = useState("")
+    const [motivoInput, setMotivoInput] = useState('')
 
     const navigation = useNavigation()
 
@@ -60,6 +62,11 @@ export const ScanerScreen = () => {
         inputRef.current?.focus();
     }, []);
 
+    const items = MotivosJustificacao.map(item => ({
+        label: item.motivo,
+        value: item.motivo,
+    }));
+
     return (
         <View style={styles.container}>
 
@@ -75,10 +82,24 @@ export const ScanerScreen = () => {
                 <View style={styles.viewNomeSelecionado}>
                     <Text style={styles.textNomeSelecionado}>Nome do aluno(a)</Text>
                     <Text style={styles.textNomeSelecionado}>{nomeAlunoInput} </Text>
-                    <Icon name="check" style={styles.icon} color={'green'} size={16}/>
+
+                    {motivoInput !== '' ? (
+                        <View style={styles.viewIconJustifica}>
+                            <View style={styles.iconJustifica}>
+                                <Icon name="info" style={styles.icon} color={'orange'} size={16} />
+                            </View>
+
+                            <Text style={styles.textNomeSelecionado}>Motivo: {motivoInput}</Text>
+                        </View>
+                    ) : (
+                        <View style={styles.iconJustifica}>
+                            <Icon name="check" style={styles.icon} color={'green'} size={16} />
+                        </View>
+                    )}
 
                 </View>
             )}
+
 
 
             {/* BOTÕES */}
@@ -121,7 +142,7 @@ export const ScanerScreen = () => {
                 </View>
             </View>
 
-            {/* MODAL */}
+            {/* MODAL PRESENÇA POR NOME */}
             <Modal
                 animationType='slide'
                 transparent={true}
@@ -195,6 +216,7 @@ export const ScanerScreen = () => {
                 </View>
             </Modal>
 
+            {/* FALTA JUSTIFICADA */}
             <Modal
                 animationType='slide'
                 transparent={true}
@@ -202,7 +224,56 @@ export const ScanerScreen = () => {
                 onRequestClose={() => setModalJustificar(false)}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text>Conteúdo do Modal Justificar</Text>
+                        <Text>Justificar Falta</Text>
+                        <TextInput
+                            style={styles.inputModal}
+                            ref={inputRef}
+                            autoFocus={true}
+                            textAlign='center'
+                            keyboardType="ascii-capable"
+                            placeholder='Selecione um Aluno'
+                            onChangeText={texto => {
+                                setNomeAlunoInput(texto);
+                                filtrarSugestoes(texto);
+                            }}
+                        />
+
+                        <RNPickerSelect
+                            onValueChange={(label) => setMotivoInput(label)}
+                            items={items}
+                            placeholder={{ label: 'Escolha uma opção...', value: null }}
+
+                        />
+
+                        <View style={{ marginBottom: 10 }}>
+                            <Button
+                                title='Ok'
+                                color={'#ffbf00'}
+                                onPress={() => {
+                                    if (nomeAlunoInput === '') {
+                                        Alert.alert('Atenção', 'Insira um Nome!');
+                                    } else if (!ListaAlunos.some(item => item.nome === nomeAlunoInput)) {
+                                        Alert.alert("Atenção", "Nome Digitado não encontrado na Lista de Alunos");
+                                    } else if (motivoInput === '') {
+                                        Alert.alert("Atenção", "Selecione uma Justificativa");
+                                    } else {
+                                        selecionarAluno(nomeAlunoInput)
+                                        setModalJustificar(false);
+                                    }
+                                }}
+                            />
+                        </View>
+
+                        <View style={{ marginBottom: 10 }}>
+                            <Button
+                                title='Limpar'
+                                color={'#ffbf00'}
+                                onPress={() => {
+                                    limpaNome()
+                                }}
+                            />
+                        </View>
+
                         <Button
                             title='Fechar'
                             color={'#ffbf00'}
@@ -210,6 +281,18 @@ export const ScanerScreen = () => {
                                 console.log('fechou MOdal')
                                 setModalJustificar(false)
                             }}
+                        />
+
+                        <FlatList
+                            data={sugestoes}
+                            renderItem={({ item }) => (
+                                <Text
+                                    style={{ fontSize: 18, paddingTop: 10, color: 'black', textDecorationLine: 'underline', }}
+                                    onPress={() => selecionarAluno(item.nome)}>{item.nome}
+                                </Text>
+                            )}
+                            keyExtractor={(item) => item.nome}
+                            textAlign='center'
                         />
                     </View>
                 </View>
@@ -279,7 +362,7 @@ const styles = StyleSheet.create({
     viewNomeSelecionado: {
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
+        position: 'absolute',
         top: 250,
         backgroundColor: '#FFBF00',
         padding: 10,
@@ -297,5 +380,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Arial'
     },
+    viewIconJustifica: {
+        alignItems: 'center'
+    },
+    iconJustifica: {
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 30,
+        height: 30,
+        borderRadius: 20
+    }
 
 })
